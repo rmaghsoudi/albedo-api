@@ -1,23 +1,58 @@
-var express = require('express');
-var app = express();
-var jwt = require('express-jwt');
-var jwks = require('jwks-rsa');
+const express = require('express');
+const app = express();
+const jwt = require('express-jwt');
+const jwks = require('jwks-rsa');
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+require('dotenv').config()
 
-var port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
-var jwtCheck = jwt({
-      secret: jwks.expressJwtSecret({
-          cache: true,
-          rateLimit: true,
-          jwksRequestsPerMinute: 5,
-          jwksUri: 'https://dev-bd5b69sr.auth0.com/.well-known/jwks.json'
-    }),
-    audience: 'http://localhost:3000/api',
-    issuer: 'https://dev-bd5b69sr.auth0.com/',
-    algorithms: ['RS256']
+mongoose
+  .connect(
+      "mongodb+srv://romy:" +
+        process.env.MONGO_ATLAS_PW  +
+      "@cluster0-iq6jj.gcp.mongodb.net/test?retryWrites=true&w=majority",
+      { 
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      }
+  )
+  .then(() => {
+    console.log("Connected to database!");
+  })
+  .catch((err) => {
+    console.log(`DB Connection Error: ${err.message}`);
+  });
+
+const jwtCheck = jwt({
+    secret: jwks.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: 'https://dev-bd5b69sr.auth0.com/.well-known/jwks.json'
+  }),
+  audience: 'http://localhost:3000/api',
+  issuer: 'https://dev-bd5b69sr.auth0.com/',
+  algorithms: ['RS256']
 });
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(jwtCheck);
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+  );
+  next();
+});
 
 app.get('/authorized', function (req, res) {
     res.send('Secured Resource');

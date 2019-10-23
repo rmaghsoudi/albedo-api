@@ -1,0 +1,30 @@
+{
+  "name": "albedo-api",
+  "version": "1.0.0",
+  "description": "The NodeJS API for my personal finance managing application, Albedo.",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "jwks-rsa": "^1.6.0",
+    "mongoose": "^5.7.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rmaghsoudi/albedo-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rmaghsoudi/albedo-api/issues"
+  },
+  "homepage": "https://github.com/rmaghsoudi/albedo-api#readme"
+}
