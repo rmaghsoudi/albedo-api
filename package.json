@@ -9,13 +9,17 @@
     "express": "^4.17.1",
     "express-jwt": "^5.3.1",
     "jwks-rsa": "^1.6.0",
-    "mongoose": "^5.7.6"
+    "mongoose": "^5.7.6",
+    "nodemon": "^2.0.1"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4"
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "braces": ">=2.3.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./app.js --exec babel-node -e js"
   },
   "repository": {
     "type": "git",

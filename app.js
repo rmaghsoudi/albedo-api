@@ -1,48 +1,34 @@
-const express = require('express');
-const app = express();
-const jwt = require('express-jwt');
-const jwks = require('jwks-rsa');
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+import express from 'express';
+import { jwtCheck } from './src/middleware/auth';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+
 require('dotenv').config()
 
+const app = express();
 const port = process.env.PORT || 3000;
 
-mongoose
-  .connect(
-      "mongodb+srv://romy:" +
-        process.env.MONGO_ATLAS_PW  +
-      "@cluster0-iq6jj.gcp.mongodb.net/test?retryWrites=true&w=majority",
-      { 
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-      }
-  )
-  .then(() => {
-    console.log("Connected to database!");
-  })
-  .catch((err) => {
-    console.log(`DB Connection Error: ${err.message}`);
-  });
+// mongoose connection
+// states that we're going to wait for a response from mongodb
+mongoose.Promise = global.Promise
+mongoose.connect(
+    `mongodb+srv://romy:${process.env.MONGO_DB_PASS}@albedo-iq6jj.gcp.mongodb.net/test?retryWrites=true&w=majority`, 
+    { // options to remove deprecation warnings
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    }, (err) => {
+      if (err) { console.log(`DB Connection Error: ${err.message}`) }
+      else { console.log("Connected to database!") }
+    });
 
-const jwtCheck = jwt({
-    secret: jwks.expressJwtSecret({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 5,
-        jwksUri: 'https://dev-bd5b69sr.auth0.com/.well-known/jwks.json'
-  }),
-  audience: 'http://localhost:3000/api',
-  issuer: 'https://dev-bd5b69sr.auth0.com/',
-  algorithms: ['RS256']
-});
 
+// configure body parser to work with JSON and gets rid of warnings
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Applying JWT middleware to the whole application rather than specific routes
 app.use(jwtCheck);
 
-app.get('/authorized', function (req, res) {
-    res.send('Secured Resource');
+app.listen(port, () => {
+  console.log(`Your server is running on port ${port}`)
 });
-
-app.listen(port);
