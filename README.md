@@ -1,2 +1,2 @@
 # Albedo API
-The NodeJS API for my personal finance managing application, Albedo.
+The NodeJS API for my latest personal application, Albedo.
