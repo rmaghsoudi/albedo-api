@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import userRoutes from './src/routes/userRoutes';
 import entryRoutes from './src/routes/entryRoutes';
+import exerciseRoutes from './src/routes/exerciseRoutes';
+import testRoutes from './src/routes/testRoutes';
 
 // Dotenv configuration to access environment variables
 require('dotenv').config()
@@ -34,6 +36,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Set up all the routes for the app
 userRoutes(app);
 entryRoutes(app);
+exerciseRoutes(app);
+testRoutes(app);
 
 app.listen(port, () => {
   console.log(`Your server is running on port ${port}`)
