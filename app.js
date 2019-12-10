@@ -1,8 +1,9 @@
 import express from 'express';
-import { jwtCheck } from './src/middleware/auth';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import userRoutes from './src/routes/userRoutes';
 
+// Dotenv configuration to access environment variables
 require('dotenv').config()
 
 const app = express();
@@ -27,7 +28,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Applying JWT middleware to the whole application rather than specific routes
-app.use(jwtCheck);
+// app.use(jwtCheck);
+
+// Set up all the routes for the app
+userRoutes(app);
 
 app.listen(port, () => {
   console.log(`Your server is running on port ${port}`)
