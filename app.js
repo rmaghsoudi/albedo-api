@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import userRoutes from './src/routes/userRoutes';
+import entryRoutes from './src/routes/entryRoutes';
 
 // Dotenv configuration to access environment variables
 require('dotenv').config()
@@ -32,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Set up all the routes for the app
 userRoutes(app);
+entryRoutes(app);
 
 app.listen(port, () => {
   console.log(`Your server is running on port ${port}`)
