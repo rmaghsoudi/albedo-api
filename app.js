@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+
+import { jwtCheck } from './src/middleware/auth';
 import userRoutes from './src/routes/userRoutes';
 import entryRoutes from './src/routes/entryRoutes';
 import exerciseRoutes from './src/routes/exerciseRoutes';
@@ -31,7 +33,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Applying JWT middleware to the whole application rather than specific routes
-// app.use(jwtCheck);
+app.use(jwtCheck);
 
 // Set up all the routes for the app
 userRoutes(app);
