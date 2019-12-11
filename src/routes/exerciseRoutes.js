@@ -5,14 +5,14 @@ import {
 } from '../controllers/exerciseController';
 
 const exerciseRoutes = (app) => {
-  app.route('/exercise')
+  app.route('/api/exercise')
       // Get all exercises for a user
       .get(getExercises)
 
       // Create a new exercise
       .post(addNewExercise);
 
-  app.route('/exercise/:id')
+  app.route('/api/exercise/:id')
       // delete a specific exercise
       .delete(deleteExercise);
 }

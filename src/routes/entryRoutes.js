@@ -6,14 +6,14 @@ import {
 } from '../controllers/entryController';
 
 const entryRoutes = (app) => {
-  app.route('/entry')
+  app.route('/api/entry')
       // Get all entries for a user
       .get(getEntries)
 
       // Create a new entry
       .post(addNewEntry);
 
-  app.route('/entry/:id')
+  app.route('/api/entry/:id')
       // update a specific entry
       .patch(updateEntry)
 

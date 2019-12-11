@@ -5,14 +5,14 @@ import {
 } from '../controllers/testController';
 
 const testRoutes = (app) => {
-  app.route('/test')
+  app.route('/api/test')
       // Get all tests for a user
       .get(getTests)
 
       // Create a new test
       .post(addNewTest);
 
-  app.route('/test/:id')
+  app.route('/api/test/:id')
       // delete a specific test
       .delete(deleteTest);
 }

@@ -4,11 +4,11 @@ import {
 } from '../controllers/userController';
 
 const userRoutes = (app) => {
-  app.route('/user')
+  app.route('/api/user')
       // Create a new user
       .post(addNewUser);
 
-  app.route('/user/:id')
+  app.route('/api/user/:id')
       // get a specific user
       .get(getUser)
 }
