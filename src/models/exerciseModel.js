@@ -11,7 +11,7 @@ export const exerciseSchema = new Schema({
       type: String,
       required: 'Exercise must have a result'
     },
-    created_date: {
+    createdDate: {
       type: Date,
       default: Date.now
     },

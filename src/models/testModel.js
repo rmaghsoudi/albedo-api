@@ -7,7 +7,7 @@ export const testSchema = new Schema({
       type: Number,
       required: 'Test must have a score'
     },
-    created_date: {
+    createdDate: {
       type: Date,
       default: Date.now
     },

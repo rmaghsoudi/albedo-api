@@ -7,7 +7,7 @@ export const entrySchema = new Schema({
       type: String,
       required: 'Entry must have content'
     },
-    created_date: {
+    createdDate: {
       type: Date,
       default: Date.now
     },
