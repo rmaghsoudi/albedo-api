@@ -45,11 +45,13 @@ export const getEntries = async (req, res) => {
   });
 }
 
-export const deleteEntry = (req, res) => {
- Entry.deleteOne({ _id: req.params.id }, (err) => {
-    if (err) {
-      res.send(err)
-    }
-    res.json({ message: 'Successfully deleted entry!' });
-  });
+export const deleteEntry = async (req, res) => {
+  try {
+    await Entry.deleteOne({ _id: req.params.id });
+
+    res.json({ message: "Successfully deleted entry!"});
+  }
+  catch(err) {
+    res.send(err);
+  }
 }
