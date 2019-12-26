@@ -6,20 +6,18 @@ const Entry = mongoose.model('Entry', entrySchema);
 const User = mongoose.model('User', userSchema);
 
 export const addNewEntry = async (req, res) => {
-  const user = await User.find({ auth0Id: req.body.auth0Id })
-  const entry = {
-    content: req.body.content,
-    belongsTo: user[0]._id
+  try {
+    const user = await User.find({ auth0Id: req.body.auth0Id })
+    const entry = {
+      content: req.body.content,
+      belongsTo: user[0]._id
+    };
+    const newEntry = await Entry.create(entry);
+    res.json(newEntry);
   }
-  
-  let newEntry = new Entry(entry);
-
-  newEntry.save((err, entry) => {
-    if (err) {
-      res.send(err)
-    }
-    res.json(entry);
-  });
+  catch(err) {
+    res.send(err)
+  }
 }
 
 export const getEntries = async (req, res) => {
@@ -29,7 +27,8 @@ export const getEntries = async (req, res) => {
     const entries = await Entry.find(user._id);
     // if we're able to find a user and its entries, send them to the frontend
     res.send(entries)
-  } catch(err) {
+  }
+  catch(err) {
     // if we hit a error, send the error to the frontend
     res.send(err)
   }
