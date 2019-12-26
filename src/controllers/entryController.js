@@ -1,10 +1,18 @@
 import mongoose from 'mongoose';
 import { entrySchema } from '../models/entryModel';
+import { userSchema } from '../models/userModel';
 
 const Entry = mongoose.model('Entry', entrySchema);
+const User = mongoose.model('User', userSchema);
 
-export const addNewEntry = (req, res) => {
-  let newEntry = new Entry(req.body);
+export const addNewEntry = async (req, res) => {
+  const user = await User.find({ auth0Id: req.body.auth0Id })
+  const entry = {
+    content: req.body.content,
+    belongsTo: user[0]._id
+  }
+  
+  let newEntry = new Entry(entry);
 
   newEntry.save((err, entry) => {
     if (err) {
@@ -14,13 +22,17 @@ export const addNewEntry = (req, res) => {
   });
 }
 
-export const getEntries = (req, res) => {
-  Entry.find(req.body, (err, entry) => {
-     if (err) {
-       res.send(err)
-     }
-     res.json(entry);
-   });
+export const getEntries = async (req, res) => {
+  // error handling for async await rather than using callbacks
+  try {
+    const user = await User.find(req.query);
+    const entries = await Entry.find(user._id);
+    // if we're able to find a user and its entries, send them to the frontend
+    res.send(entries)
+  } catch(err) {
+    // if we hit a error, send the error to the frontend
+    res.send(err)
+  }
  }
 
  export const updateEntry = (req, res) => {
