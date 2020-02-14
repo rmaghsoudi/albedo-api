@@ -1,15 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-
+// Dotenv configuration to access environment variables
+require('dotenv').config()
 import { jwtCheck } from './src/middleware/auth';
 import userRoutes from './src/routes/userRoutes';
 import entryRoutes from './src/routes/entryRoutes';
 import exerciseRoutes from './src/routes/exerciseRoutes';
 import testRoutes from './src/routes/testRoutes';
-
-// Dotenv configuration to access environment variables
-require('dotenv').config()
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,7 +16,7 @@ const port = process.env.PORT || 3000;
 // states that we're going to wait for a response from mongodb
 mongoose.Promise = global.Promise
 mongoose.connect(
-    `mongodb+srv://romy:${process.env.MONGO_DB_PASS}@albedo-iq6jj.gcp.mongodb.net/test?retryWrites=true&w=majority`, 
+    process.env.MONGO_URI, 
     { // options to remove deprecation warnings
       useNewUrlParser: true,
       useUnifiedTopology: true
